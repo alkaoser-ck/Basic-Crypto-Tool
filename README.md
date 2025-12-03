@@ -2,8 +2,7 @@
 
 A simple, lightweight desktop utility to quickly encrypt/encode text using various ciphers. Activate the tool anytime with a global hotkey, enter your text, choose your cipher, and the result is automatically copied to your clipboard.
 
-![Screenshot of the Crypto Hotkey application window](https'://i.imgur.com/your-screenshot.png')
-*(You can replace the link above with a real screenshot of your application after you create one.)*
+
 
 ## Features
 
