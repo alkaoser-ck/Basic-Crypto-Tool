@@ -30,78 +30,87 @@ A lightweight, offline cryptography utility for rapid message encryption. This t
 
 ## Linux Installation Guide
 
-On Linux, the `keyboard` library requires root permissions to function as a global hotkey. The following one-time setup will build the application from source and install it as a system service that runs automatically on startup.
+On Linux, capturing global keyboard events (like a system-wide hotkey) requires elevated permissions. For this reason, this guide will help you install CryptoHotkey as a **systemd service** that runs as `root`. This is a one-time setup that will build the application from source and ensure it starts automatically and reliably every time you boot your computer.
 
-#### Step 1: Install System Dependencies
+### Step 1: Install System Dependencies
 
-Choose the command that matches your distribution. These packages are required for the GUI, hotkey, and clipboard functionality.
+Choose the command that matches your distribution. These packages are required for the GUI, hotkey functionality, and clipboard integration.
 
 *   **For Arch-based distributions (e.g., Arch, Manjaro):**
     ```bash
-    sudo pacman -S tk xclip
+    sudo pacman -S --noconfirm tk xclip git
     ```
 
 *   **For Debian-based distributions (e.g., Ubuntu, Mint, Debian):**
     ```bash
-    sudo apt update && sudo apt install -y python3-tk xclip
+    sudo apt update && sudo apt install -y python3-tk xclip git
     ```
 
-#### Step 2: Clone Repository and Install Python Packages
+### Step 2: Clone the Repository and Set Up a Virtual Environment
 
-This will download the source code and install the necessary Python libraries.
+This will download the source code and create a safe, isolated Python environment for the application's dependencies. This prevents conflicts with system-wide packages.
+
 ```bash
+# Clone the repository
 git clone https://github.com/alkaoser-ck/Basic-Crypto-Tool.git
 cd Basic-Crypto-Tool
-pip install -r requirements.txt
+
+# Create and activate a Python virtual environment
+python -m venv venv
+source venv/bin/activate
 ```
 
-#### Step 3: Build the Executable
+### Step 3: Install Python Dependencies
 
-This command bundles the entire Python application into a single executable file.
+Now, with the virtual environment active, install the required Python libraries.
+
 ```bash
-# Navigate into the 'src' directory where the scripts are
-cd src
-
-# Run the build command
-pyinstaller --onefile --windowed --name CryptoHotkey --collect-all keyboard --collect-all customtkinter hotkey.py
+# The command prompt should now be prefixed with (venv)
+pip install -r requirements.txt
+pip install pyinstaller
 ```
 
-#### Step 4: Install as a System Service
+### Step 4: Run the Application as a System Service
 
-This process moves the application to a standard directory and creates a service file so it starts automatically every time you log in.
+This final step will create a `systemd` service file and start the application. This makes the hotkey available automatically after every reboot.
 
-1.  **Move the executable:**
+1.  **Create the Service File:**
+    This command will create the `systemd` service file for you. It automatically inserts the correct paths for the Python executable and the script.
+
     ```bash
-    sudo mv dist/CryptoHotkey /usr/local/bin/
-    ```
-
-2.  **Create the `systemd` service file:**
-    Run `sudo nano /etc/systemd/system/cryptohotkey.service` to create and edit the service file. Paste the following content into the editor.
-
-    **Important:** In the file below, replace `your-username` with your actual Linux username.
-    ```ini
+    # Create the service file using a here-document
+    sudo bash -c "cat > /etc/systemd/system/cryptohotkey.service" <<EOF
     [Unit]
-    Description=CryptoHotkey background service
-    After=graphical.target
+    Description=CryptoHotkey Service
+    After=multi-user.target
 
     [Service]
-    ExecStart=/usr/local/bin/CryptoHotkey
-    Restart=always
-    User=your-username
-    Environment=DISPLAY=:0
-    Environment=XAUTHORITY=/home/your-username/.Xauthority
+    User=root
+    Group=root
+    ExecStart=$(pwd)/venv/bin/python $(pwd)/src/hotkey.py
+    Restart=on-failure
+    StandardOutput=journal
+    StandardError=journal
 
     [Install]
-    WantedBy=graphical.target
+    WantedBy=multi-user.target
+    EOF
     ```
-    Save the file and exit the editor (in `nano`, press `Ctrl+X`, then `Y`, then `Enter`).
 
-3.  **Enable and start the service:**
-    These commands register the service, enable it to start on boot, and start it for the current session.
+2.  **Enable and Start the Service:**
+    This command will reload `systemd`, enable the service to start on boot, and start it immediately.
+
     ```bash
     sudo systemctl daemon-reload
-    sudo systemctl enable cryptohotkey.service
-    sudo systemctl start cryptohotkey.service
+    sudo systemctl enable --now cryptohotkey.service
     ```
 
-The setup is now complete! CryptoHotkey will run automatically every time you start your computer. You can use the `Alt+Ctrl+C` hotkey at any time without any further commands.
+3.  **(Optional) Check the Service Status:**
+    To confirm that the service is running correctly, you can use the following command:
+
+    ```bash
+    sudo systemctl status cryptohotkey.service
+    ```
+    If the service is active and running, you're all set!
+
+The setup is now complete! CryptoHotkey will run automatically and silently in the background every time you start your computer. You can use the `Alt+Ctrl+C` hotkey at any time.
