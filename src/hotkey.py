@@ -49,7 +49,7 @@ def main():
         print(f"A critical error occurred: {e}", file=sys.stderr)
     finally:
         # Clean up all hotkeys
-        keyboard.remove_all_hotkeys()
+        pass
 
 if __name__ == "__main__":
     main()
