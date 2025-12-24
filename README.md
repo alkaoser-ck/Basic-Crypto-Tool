@@ -24,7 +24,7 @@ A lightweight, offline cryptography utility for rapid message encryption. This t
 
 The easiest way to get started is to download the latest pre-built application for your operating system.
 
-1.  Go to the **[Releases](https://github.com/your-username/your-repository/releases)** page of this repository.
+1.  Go to the **[Releases](https://github.com/alkaoser-ck/Basic-Crypto-Tool/releases)** page of this repository.
 2.  Under the latest release, download the executable file for your system (e.g., `CryptoHotkey.exe` for Windows, `CryptoHotkey` for macOS/Linux).
 3.  Run the application. It will run in the background.
 
@@ -48,7 +48,7 @@ If you want to run the application from the source code:
 1.  **Prerequisites:** Ensure you have Python 3 installed.
 2.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/your-repository.git
+    git clone https://github.com/alkaoser-ck/Basic-Crypto-Tool.git 
     cd your-repository
     ```
 3.  **Install dependencies:**
