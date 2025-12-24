@@ -21,7 +21,7 @@ def main():
     - Runs a loop in the main thread to wait for GUI requests from the hotkey.
     """
     print("Starting Crypto Hotkey listener...")
-    print("Press Ctrl+Alt+C+R to open the encryption window.")
+    print("Press Alt+Ctrl+C to open the encryption window.")
     print("Press Ctrl+C in this terminal to exit if running from source.")
 
     try:
