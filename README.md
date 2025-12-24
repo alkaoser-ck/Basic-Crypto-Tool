@@ -1,129 +1,94 @@
-# Crypto Hotkey
+# CryptoHotkey
 
-A simple, lightweight desktop utility to quickly encrypt/encode text using various ciphers. Activate the tool anytime with a global hotkey, enter your text, choose your cipher, and the result is automatically copied to your clipboard.
-
-
+A lightweight, offline cryptography utility for rapid message encryption. This tool operates entirely locally, requires no internet connection, and is optimized for speed and keyboard-centric usage. It's designed to convert plaintext to ciphertext instantly through a minimal interface, emphasizing efficiency, privacy, and ease of use.
 
 ## Features
 
-- **Global Hotkey**: Press `Alt+Ctrl+C` from any application to launch the encryption window.
-- **Multiple Ciphers**: Supports a variety of ciphers including Caesar, Vigenere, Base64, Morse Code, and more.
-- **Clipboard Integration**: The encrypted/encoded output is automatically copied to your clipboard.
-- **Cross-Platform**: Works on Windows, macOS, and Linux.
+- **Completely Offline:** No internet connection required. Your data never leaves your machine.
+- **Keyboard-Centric:** Summon the app with a global hotkey and encrypt without touching your mouse.
+- **Instant Clipboard:** The encrypted output is automatically copied to your clipboard.
+- **Lightweight & Fast:** A minimal interface and optimized code ensure near-instant operation.
+- **Cross-Platform:** Works on Windows, macOS, and Linux.
 
----
+## Supported Ciphers
 
-## Using the Application (For End-Users)
+- Caesar Cipher
+- Base64
+- Vigenere Cipher
+- Morse Code
+- Reverse
+- ROTX Cipher
+- Bifid Cipher
 
-The easiest way to use Crypto Hotkey is to download the latest pre-built application from the **[Releases](https'://github.com/your-username/your-repo/releases')** page of this repository.
+## Getting Started (For Users)
 
-1.  Go to the Releases page.
-2.  Download the appropriate executable file for your operating system (e.g., `CryptoHotkey-Windows.exe`, `CryptoHotkey-Linux`, or `CryptoHotkey-macOS`).
-3.  Move the downloaded file to a permanent location on your computer (e.g., `C:\Program Files\CryptoHotkey` on Windows or `/opt/CryptoHotkey` on Linux).
+The easiest way to get started is to download the latest pre-built application for your operating system.
 
-### Running on System Startup
+1.  Go to the **[Releases](https://github.com/your-username/your-repository/releases)** page of this repository.
+2.  Under the latest release, download the executable file for your system (e.g., `CryptoHotkey.exe` for Windows, `CryptoHotkey` for macOS/Linux).
+3.  Run the application. It will run in the background.
 
-For the hotkey to work at all times, the application needs to be running in the background. Here’s how to make it start automatically when you turn on your computer.
+## How to Use
 
-#### Windows
-
-1.  Create a shortcut to the `.exe` file you downloaded.
-2.  Press `Win + R`, type `shell:startup`, and press Enter. This will open your Startup folder.
-3.  Move the shortcut you created into this folder.
-
-The application will now start automatically when you log in.
-
-#### macOS
-
-1.  Open **System Settings** > **General** > **Login Items**.
-2.  Under "Open at Login", click the `+` button.
-3.  Find and select the `CryptoHotkey-macOS` application you downloaded.
-
-**Note for macOS & Linux**: The first time you run the application, your system may ask for permissions to monitor keyboard input or for accessibility access. You must grant these permissions for the global hotkey to work. You may also need to run the application with `sudo` for the first time or provide permissions in the system settings.
-
-#### Linux
-
-There are two main ways to autostart an application on most Linux desktop environments.
-
-**Method 1: Using a `.desktop` file (Recommended)**
-
-1.  Create a file named `CryptoHotkey.desktop` in `~/.config/autostart/`.
-2.  Open the file and add the following content, making sure to replace `/path/to/your/CryptoHotkey-Linux` with the actual path to the executable:
-
-    ```ini
-    [Desktop Entry]
-    Type=Application
-    Name=Crypto Hotkey
-    Exec=/path/to/your/CryptoHotkey-Linux
-    Comment=A background hotkey tool for text encryption.
-    ```
-3.  Save the file and make it executable: `chmod +x ~/.config/autostart/CryptoHotkey.desktop`.
-
-**Important**: On Linux, the `keyboard` library requires root permissions to function as a global hotkey. This means you must run the application with `sudo`. To make this work on startup, you may need to configure `sudoers` to allow running the app without a password or modify the `.desktop` file's `Exec` line to something like `Exec=sudo /path/to/your/CryptoHotkey-Linux`. This can be complex and depends on your system's security setup.
+1.  Launch the CryptoHotkey application. It will run silently in the system tray or as a background process.
+2.  Press `Alt+Ctrl+C` anywhere on your system to open the encryption window.
+3.  Use the dropdown to select your desired cipher.
+4.  If the cipher requires a key, an input box will appear. Enter the key.
+5.  Type or paste your text into the main text area.
+6.  Press `Enter`. The window will close, and the ciphertext will be automatically copied to your clipboard.
 
 ---
 
 ## For Developers
 
-If you want to run the application from source or build it yourself, follow these instructions.
-
-### Prerequisites
-
--   Python 3.8+
--   `pip` and `venv`
-
 ### Running from Source
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/your-repo.git
-    cd your-repo
-    ```
+If you want to run the application from the source code:
 
-2.  **Create and activate a virtual environment:**
+1.  **Prerequisites:** Ensure you have Python 3 installed.
+2.  **Clone the repository:**
     ```bash
-    python3 -m venv venv
-    source venv/bin/activate
+    git clone https://github.com/your-username/your-repository.git
+    cd your-repository
     ```
-
 3.  **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
-
 4.  **Run the application:**
     ```bash
-    python src/hotkey.py
+    python hotkey.py
     ```
-    **On Linux**, you will need to run this with `sudo` for the global hotkey to work:
-    ```bash
-    sudo venv/bin/python src/hotkey.py
-    ```
+    The hotkey listener will now be active.
 
-### Building the Executable
+### Creating a Cross-Platform Release
 
-This project uses **PyInstaller** to create a single-file executable.
+To package this application into a single, distributable executable for Windows, macOS, and Linux, you can use `PyInstaller`.
+
+**Important:** To create a `.exe` for Windows, you must run PyInstaller on a Windows machine. To create a `.app` for macOS, you must run it on a Mac, and so on for Linux.
 
 1.  **Install PyInstaller:**
     ```bash
     pip install pyinstaller
     ```
+2.  **Build the Executable:**
+    Navigate to the project's root directory in your terminal and run the following command:
 
-2.  **Run the build command:**
-    From the root of the project directory, run the following command.
+    ```bash
+    pyinstaller --onefile --windowed --name CryptoHotkey hotkey.py
+    ```
+    - `--onefile`: Bundles everything into a single executable file.
+    - `--windowed`: Prevents a console window from opening when the application runs.
+    - `--name CryptoHotkey`: Sets the name of your final executable.
 
-    -   **On Windows/macOS**:
-        ```bash
-        pyinstaller --name "CryptoHotkey" --onefile --noconsole --icon=path/to/your/icon.ico src/hotkey.py
-        ```
-    -   **On Linux**:
-        ```bash
-        pyinstaller --name "CryptoHotkey" --onefile --noconsole src/hotkey.py
-        ```
-    
-    *   `--onefile`: Bundles everything into a single executable.
-    *   `--noconsole`: Prevents the terminal/console window from appearing when you run the application.
-    *   `--name`: Sets the name of the final executable.
-    *   `--icon`: (Optional) You can add a custom icon to your `.exe` file.
+    The final executable will be located in the `dist/` directory that PyInstaller creates.
 
-3.  The final executable will be located in the `dist/` directory. You can then distribute this file.
+3.  **Publishing to GitHub:**
+    1.  Go to your repository on GitHub and click on the **"Releases"** tab on the right-hand side.
+    2.  Click **"Draft a new release"**.
+    3.  Give your release a version number (e.g., `v1.0.0`) and a title.
+    4.  In the "Describe this release" section, you can add release notes.
+    5.  In the **"Attach binaries"** box, drag and drop the executables you built for each operating system (e.g., `CryptoHotkey.exe`, `CryptoHotkey.app`).
+    6.  Click **"Publish release"**.
+
+Now, users can easily download and run your application on different platforms.
